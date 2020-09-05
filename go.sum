@@ -1,3 +1,5 @@
+github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
+github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/hshimamoto/go-iorelay v0.0.0-20200822035826-c2d7a868b951 h1:3NkmYFRaGRnaWP/ty1NO7XytxubAmCNo9Z9Gh6yM05E=
 github.com/hshimamoto/go-iorelay v0.0.0-20200822035826-c2d7a868b951/go.mod h1:uyVVJ1n2K6ncZzpmp7EpaRzFfwsJcBg6Y1hXMeainSs=
 github.com/hshimamoto/go-session v0.0.0-20200520123307-bdf55dab86cd h1:h5EDd4efh+e9xfsQftauuqAoagN4Nnkzur8Cv7ecQj4=

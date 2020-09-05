@@ -9,6 +9,7 @@ import (
     "path/filepath"
 
     "1bin/fwd"
+    "1bin/fwdset"
 )
 
 func main() {
@@ -16,5 +17,6 @@ func main() {
     log.Printf("1bin: %s\n", cmd)
     switch cmd {
     case "fwd": fwd.Run(os.Args[1:])
+    case "fwdset": fwdset.Run(os.Args[1:])
     }
 }
