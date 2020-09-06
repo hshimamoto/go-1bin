@@ -12,15 +12,12 @@ import (
     "path/filepath"
     "strings"
 
+    "1bin/lib/f"
     "1bin/lib/docker"
 )
 
 func getgituser_from(file string) string {
-    buf, err := ioutil.ReadFile(file)
-    if err != nil {
-	return ""
-    }
-    for _, line := range strings.Split(string(buf), "\n") {
+    for line := range f.Lines(file) {
 	w := strings.Fields(line)
 	if len(w) < 3 {
 	    continue
@@ -50,12 +47,8 @@ func getgituser() string {
 }
 
 func loadenvs_from(file string) ([]string, error) {
-    buf, err := ioutil.ReadFile(file)
     envs := []string{}
-    if err != nil {
-	return envs, err
-    }
-    for _, line := range strings.Split(string(buf), "\n") {
+    for line := range f.Lines(file) {
 	if line == "" || line[0] == '#' {
 	    continue
 	}
@@ -71,14 +64,15 @@ func loadenvs_from(file string) ([]string, error) {
 
 func loadenvs() []string {
     envfile := ".golangbuilder.env"
-    if envs, err := loadenvs_from(envfile); err == nil {
-	return envs
-    }
+    envs := []string{}
     home := os.Getenv("HOME")
-    if envs, err := loadenvs_from(filepath.Join(home, envfile)); err == nil {
-	return envs
+    if lines, err := loadenvs_from(filepath.Join(home, envfile)); err == nil {
+	envs = append(envs, lines...)
     }
-    return []string{}
+    if lines, err := loadenvs_from(envfile); err == nil {
+	envs = append(envs, lines...)
+    }
+    return envs
 }
 
 func Run(args []string) {
