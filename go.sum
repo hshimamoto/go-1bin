@@ -4,3 +4,5 @@ github.com/hshimamoto/go-iorelay v0.0.0-20200822035826-c2d7a868b951 h1:3NkmYFRaG
 github.com/hshimamoto/go-iorelay v0.0.0-20200822035826-c2d7a868b951/go.mod h1:uyVVJ1n2K6ncZzpmp7EpaRzFfwsJcBg6Y1hXMeainSs=
 github.com/hshimamoto/go-session v0.0.0-20200520123307-bdf55dab86cd h1:h5EDd4efh+e9xfsQftauuqAoagN4Nnkzur8Cv7ecQj4=
 github.com/hshimamoto/go-session v0.0.0-20200520123307-bdf55dab86cd/go.mod h1:KORDMWG+H/shIAh+4QVBycMLRMWBpGtH7GhyfeTbdpw=
+github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f h1:y5//uYreIhSUg3J1GEMiLbxo1LJaP8RfCpH6pymGZus=
+github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f/go.mod h1:ZdcZmHo+o7JKHSa8/e818NopupXU1YMK5fe1lsApnBw=
