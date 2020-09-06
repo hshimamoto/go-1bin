@@ -18,9 +18,10 @@ import (
 // Name = "name"
 // Src = ":8080"
 // Dst = "proxy:8080"
+// Limit = "10M"
 
 type fwd struct {
-    Name, Src, Dst string
+    Name, Src, Dst, Limit string
 }
 
 type fwdconfig struct {
@@ -42,13 +43,17 @@ type fwdproc struct {
 }
 
 func (fp *fwdproc)Start(q chan *fwdproc) {
-    log.Printf("start fwd %s %s %s\n", fp.Name, fp.Src, fp.Dst)
-    fp.cmd = exec.Command("fwd", fp.Src, fp.Dst)
+    log.Printf("start fwd %s %s %s %s\n", fp.Name, fp.Src, fp.Dst, fp.Limit)
+    if fp.Limit == "" {
+	fp.cmd = exec.Command("fwd", fp.Src, fp.Dst)
+    } else {
+	fp.cmd = exec.Command("fwd", fp.Src, fp.Dst, fp.Limit)
+    }
     fp.cmd.Stdout = os.Stdout
     fp.cmd.Stderr = os.Stderr
     go func() {
 	err := fp.cmd.Run()
-	log.Printf("done fwd %s %s %s %v\n", fp.Name, fp.Src, fp.Dst, err)
+	log.Printf("done fwd %s %s %s %s %v\n", fp.Name, fp.Src, fp.Dst, fp.Limit, err)
 	time.Sleep(time.Second) // interval
 	q <- fp // send signal
 	fp.cmd = nil
