@@ -12,6 +12,7 @@ import (
     "1bin/fwd"
     "1bin/fwdset"
     "1bin/golangbuilder"
+    "1bin/gradlebuilder"
 )
 
 func main() {
@@ -24,5 +25,6 @@ func main() {
     case "fwd": fwd.Run(os.Args[1:])
     case "fwdset": fwdset.Run(os.Args[1:])
     case "golangbuilder": golangbuilder.Run(os.Args[1:])
+    case "gradlebuilder": gradlebuilder.Run(os.Args[1:])
     }
 }

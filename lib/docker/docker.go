@@ -20,7 +20,7 @@ type Docker struct {
     envs []string
 }
 
-func New(name string) (*Docker, error) {
+func New(name, tag string) (*Docker, error) {
     // container name
     cwd, _ := os.Getwd()
     dirname := filepath.Base(cwd)
@@ -34,7 +34,7 @@ func New(name string) (*Docker, error) {
     ugid := u.Uid + ":" + u.Gid
 
     d := &Docker{}
-    d.image = name
+    d.image = name + ":" + tag
     d.cname = cname
     d.ugid = ugid
     d.vols = []string{}
