@@ -7,6 +7,7 @@ import (
     "log"
     "net"
     "strconv"
+    "time"
 
     "github.com/hshimamoto/go-session"
     "github.com/hshimamoto/go-iorelay"
@@ -50,6 +51,7 @@ func Run(args []string) {
 	}
 	log.Printf("set Ratelimit %d bytes/s", limit)
     }
+    timeout := time.Hour
     serv, err := session.NewServer(args[0], func(conn net.Conn) {
 	defer conn.Close()
 	fconn, err := session.Dial(args[1])
@@ -67,9 +69,9 @@ func Run(args []string) {
 		r: flowrate.NewReader(fconn, limit),
 		w: flowrate.NewWriter(fconn, limit),
 	    }
-	    iorelay.Relay(f1, f2)
+	    iorelay.RelayWithTimeout(f1, f2, timeout)
 	} else {
-	    iorelay.Relay(conn, fconn)
+	    iorelay.RelayWithTimeout(conn, fconn, timeout)
 	}
     })
     if err != nil {
