@@ -9,6 +9,7 @@ import (
     "os"
     "path/filepath"
 
+    "1bin/bashhistcompact"
     "1bin/fwd"
     "1bin/fwdset"
     "1bin/golangbuilder"
@@ -22,6 +23,7 @@ func main() {
     log.SetFlags(log.Flags() | log.Lmsgprefix)
     log.SetPrefix(fmt.Sprintf("[%d <%s>] ", pid, cmd))
     switch cmd {
+    case "bashhistcompact": bashhistcompact.Run(os.Args[1:])
     case "fwd": fwd.Run(os.Args[1:])
     case "fwdset": fwdset.Run(os.Args[1:])
     case "golangbuilder": golangbuilder.Run(os.Args[1:])
