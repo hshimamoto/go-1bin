@@ -7,4 +7,5 @@ require (
 	github.com/hshimamoto/go-iorelay v0.0.0-20200822035826-c2d7a868b951
 	github.com/hshimamoto/go-session v0.0.0-20200520123307-bdf55dab86cd
 	github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 )
