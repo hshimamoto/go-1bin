@@ -52,6 +52,7 @@ type host struct {
     running bool
     keepalive time.Time
     q chan req
+    nr int
 }
 
 func (h *host)Connect() (*ssh.Client, error) {
@@ -101,7 +102,11 @@ func (h *host)Connect() (*ssh.Client, error) {
 func (h *host)EventCheck(cli *ssh.Client) {
     select {
     case r := <-h.q:
-	go forwarder(cli, r.conn, r.remote)
+	go func() {
+	    h.nr++
+	    forwarder(cli, r.conn, r.remote)
+	    h.nr--
+	}()
     case <-time.After(time.Minute):
 	now := time.Now()
 	if now.After(h.keepalive) {
@@ -147,6 +152,14 @@ func (h *host)RunListener(f fwd) {
     }
 }
 
+func (h *host)Stats() {
+    st := "stop"
+    if h.running {
+	st = "ruuning"
+    }
+    log.Printf("%s@%s: %s %d connections", h.User, h.Dest, st, h.nr)
+}
+
 func loadConfig(config string) []*host {
     hosts := []*host{}
     buf, err := ioutil.ReadFile(config)
@@ -190,9 +203,6 @@ func loadConfig(config string) []*host {
     return hosts
 }
 
-func show_stats() {
-}
-
 func Run(args []string) {
     if len(args) < 1 {
 	log.Println("sshfwd <fwd config>")
@@ -204,7 +214,9 @@ func Run(args []string) {
 	return
     }
     for _, host := range hosts {
+	// initialize
 	host.q = make(chan req)
+	host.nr = 0
 	// start sshfwd goroutines
 	go host.RunForwarder()
 	for _, fwd := range host.Fwds {
@@ -213,6 +225,8 @@ func Run(args []string) {
     }
     for {
 	time.Sleep(time.Hour)
-	show_stats()
+	for _, host := range hosts {
+	    host.Stats()
+	}
     }
 }
