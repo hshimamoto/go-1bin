@@ -39,20 +39,33 @@ func header(cmd string, pid int) {
     log.Printf("1bin: <%s> pid=%d\n", cmd, pid)
 }
 
+func lookup(cmd string) *command {
+    for _, e := range cmds {
+	if e.name == cmd {
+	    return &e
+	}
+    }
+    return nil
+}
+
 func main() {
     cmd := filepath.Base(os.Args[0])
+    args := os.Args[1:]
     pid := os.Getpid()
 
     // lookup cmd
-    var c *command = nil
-    for _, e := range cmds {
-	if e.name == cmd {
-	    c = &e
-	    break
-	}
-    }
+    c := lookup(cmd)
     if c == nil {
-	header(cmd, pid)
+	if len(args) > 0 {
+	    cmd = args[0]
+	    args = args[1:]
+	    c = lookup(cmd)
+	}
+	if c == nil {
+	    header(cmd, pid)
+	    log.Printf("1bin: no command <%s>\n", cmd)
+	    return
+	}
     }
 
     // show header
@@ -65,5 +78,5 @@ func main() {
     log.SetPrefix(fmt.Sprintf("[%d <%s>] ", pid, cmd))
 
     // run command
-    c.run(os.Args[1:])
+    c.run(args)
 }
