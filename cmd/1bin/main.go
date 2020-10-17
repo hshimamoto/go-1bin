@@ -10,6 +10,7 @@ import (
     "path/filepath"
 
     "1bin/bashhistcompact"
+    "1bin/gorkscrew"
     "1bin/fwd"
     "1bin/fwdset"
     "1bin/golangbuilder"
@@ -27,6 +28,7 @@ type command struct {
 
 var cmds = []command{
     command{ name: "bashhistcompact", run: bashhistcompact.Run, noheader: true },
+    command{ name: "gorkscrew", run: gorkscrew.Run, noheader: true },
     command{ name: "fwd", run: fwd.Run },
     command{ name: "fwdset", run: fwdset.Run },
     command{ name: "golangbuilder", run: golangbuilder.Run },
