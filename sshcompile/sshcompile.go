@@ -23,13 +23,14 @@ var keyMap map[string]string = map[string]string{
     "port": "Port",
     "identityfile": "IdentityFile",
     "proxycommand": "ProxyCommand",
+    "proxyusefdpass": "ProxyUseFdpass",
     "stricthostkeychecking": "StrictHostKeyChecking",
     "userknownhostfile": "UserKnownHostFile",
     "serveraliveinterval": "ServerAliveInterval",
 }
 var keys []string = []string{
     "user", "hostname", "port", "identityfile",
-    "proxycommand", "serveraliveinterval",
+    "proxycommand", "proxyusefdpass", "serveraliveinterval",
     "stricthostkeychecking", "userknownhostfile",
 }
 
