@@ -9,6 +9,8 @@ import (
     "os"
     "path/filepath"
     "strings"
+
+    "1bin/lib/f"
 )
 
 /*
@@ -83,12 +85,7 @@ func (host *sshHost)compile() []string {
 	return config
     }
 
-    buf, err := ioutil.ReadFile(host.Path)
-    if err != nil {
-	log.Printf("ReadFile err: %v\n", err)
-	return []string{}
-    }
-    for _, line0 := range strings.Split(string(buf), "\n") {
+    for line0 := range f.Lines(host.Path) {
 	line := strings.TrimSpace(line0)
 	if line == "" {
 	    continue

@@ -13,6 +13,8 @@ import (
     "golang.org/x/crypto/ssh"
     "github.com/hshimamoto/go-iorelay"
     "github.com/hshimamoto/go-session"
+
+    "1bin/lib/f"
 )
 
 func sshkeepalive(cli *ssh.Client) error {
@@ -162,13 +164,9 @@ func (h *host)Stats() {
 
 func loadConfig(config string) []*host {
     hosts := []*host{}
-    buf, err := ioutil.ReadFile(config)
-    if err != nil {
-	return []*host{}
-    }
     var curr *host = nil
     proxy := ""
-    for _, line := range strings.Split(string(buf), "\n") {
+    for line := range f.Lines(config) {
 	if line == "" || line[0] == '#' {
 	    continue
 	}
