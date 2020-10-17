@@ -14,6 +14,7 @@ import (
     "1bin/fwdset"
     "1bin/golangbuilder"
     "1bin/gradlebuilder"
+    "1bin/sshcompile"
     "1bin/sshfwd"
     "1bin/sshproxy"
 )
@@ -30,6 +31,7 @@ var cmds = []command{
     command{ name: "fwdset", run: fwdset.Run },
     command{ name: "golangbuilder", run: golangbuilder.Run },
     command{ name: "gradlebuilder", run: gradlebuilder.Run },
+    command{ name: "sshcompile", run: sshcompile.Run },
     command{ name: "sshfwd", run: sshfwd.Run },
     command{ name: "sshproxy", run: sshproxy.Run },
 }
