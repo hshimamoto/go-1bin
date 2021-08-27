@@ -1,5 +1,5 @@
 // 1bin / bashhistcompact
-// MIT License Copyright(c) 2020 Hiroshi Shimamoto
+// MIT License Copyright(c) 2020, 2021 Hiroshi Shimamoto
 // vim:set sw=4 sts=4:
 package bashhistcompact
 
@@ -50,6 +50,11 @@ func Run(args []string) {
     for _, line := range strings.Split(string(hist), "\n") {
 	switch line {
 	case "ls", "pwd", "cd", "cd ..": // simple command
+	case "mount": // simple command
+	case "ls -l", "ls -lart", "ls -larth": // ls variant
+	case "df", "df -h", "df -h .", "df -h ~": // df variant
+	case "du -ksh .": // du variant
+	case "ps", "ps auxww": // ps variant
 	case "jobs", "%", "%1", "%2", "%3": // job control
 	case "rm -rf *": // catastrophic
 	case prev: // duplicate
