@@ -50,8 +50,8 @@ func Run(args []string) {
     for _, line := range strings.Split(string(hist), "\n") {
 	switch line {
 	case "ls", "pwd", "cd", "cd ..": // simple command
-	case "mount": // simple command
-	case "ls -l", "ls -lart", "ls -larth": // ls variant
+	case "mount", "env", "top", "reset": // simple command
+	case "ls -l", "ls -lh", "ls -lart", "ls -larth": // ls variant
 	case "df", "df -h", "df -h .", "df -h ~": // df variant
 	case "du -ksh .": // du variant
 	case "ps", "ps auxww": // ps variant
