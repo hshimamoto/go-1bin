@@ -1,12 +1,11 @@
 // 1bin / gorkscrew
-// MIT License Copyright(c) 2020 Hiroshi Shimamoto
+// MIT License Copyright(c) 2020, 2022 Hiroshi Shimamoto
 // vim:set sw=4 sts=4:
 package gorkscrew
 
 import (
-    "log"
+    "net"
 )
 
-func Run(args []string) {
-    log.Println("gorkscrew is not supported")
-}
+var usage string = "gorkscrew <proxyhost:port> <remotehost:port>"
+var passfd func(net.Conn) = nil

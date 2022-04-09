@@ -1,16 +1,13 @@
 // 1bin / gorkscrew
-// MIT License Copyright(c) 2020 Hiroshi Shimamoto
+// MIT License Copyright(c) 2020, 2022 Hiroshi Shimamoto
 // vim:set sw=4 sts=4:
-// +build linux
 
 package gorkscrew
 
 import (
     "io"
     "log"
-    "net"
     "os"
-    "syscall"
 
     "github.com/hshimamoto/go-iorelay"
     "github.com/hshimamoto/go-session"
@@ -32,7 +29,7 @@ func (s *stdio)Write(p []byte) (int, error) {
 func Run(args []string) {
     // gorkscrew proxyhost:port remotehost:port
     if len(args) < 2 {
-	log.Println("gorkscrew [-F] <proxyhost:port> <remotehost:port>")
+	log.Println(usage)
 	return
     }
     opt := ""
@@ -47,6 +44,10 @@ func Run(args []string) {
 	log.Printf("unknown opt: %v", args)
 	return
     }
+    if opt == "-F" && passfd == nil {
+	log.Printf("unknown opt: %v", args)
+	return
+    }
 
     // Do HTTP CONNECT Here
     conn, err := session.Corkscrew(proxyaddr, remoteaddr)
@@ -56,29 +57,7 @@ func Run(args []string) {
     }
 
     if opt == "-F" {
-	var raw syscall.RawConn
-	var err error
-	switch sock := conn.(type) {
-	case *net.TCPConn:
-	    raw, err = sock.SyscallConn()
-	case *net.UnixConn:
-	    raw, err = sock.SyscallConn()
-	default:
-	    log.Println("unspported type")
-	    return
-	}
-	if err != nil {
-	    log.Printf("unable to get RawConn: %v\n", err)
-	    return
-	}
-	raw.Control(func(fd uintptr) {
-	    rights := syscall.UnixRights(int(fd))
-	    err := syscall.Sendmsg(1, nil, rights, nil, 0)
-	    if err != nil {
-		log.Printf("unable to send rights: %v\n", err)
-	    }
-	})
-	// finish passfd
+	passfd(conn)
 	return
     }
 
