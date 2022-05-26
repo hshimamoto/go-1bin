@@ -104,7 +104,11 @@ func Run(args []string) {
     wd := filepath.Join(home_dst, projname)
 
     // setup docker
-    d, err := docker.New("golang", "latest")
+    rootless := false
+    if len(args) > 0 && args[0] == "rootless" {
+	rootless = true
+    }
+    d, err := docker.New("golang", "latest", rootless)
     if err != nil {
 	log.Printf("docker %v\n", err)
 	return

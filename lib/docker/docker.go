@@ -18,9 +18,10 @@ type Docker struct {
     wd string
     vols []string
     envs []string
+    rootless bool
 }
 
-func New(name, tag string) (*Docker, error) {
+func New(name, tag string, rootless bool) (*Docker, error) {
     // container name
     cwd, _ := os.Getwd()
     dirname := filepath.Base(cwd)
@@ -39,6 +40,7 @@ func New(name, tag string) (*Docker, error) {
     d.ugid = ugid
     d.vols = []string{}
     d.envs = []string{}
+    d.rootless = rootless
     return d, nil
 }
 
@@ -57,8 +59,10 @@ func (d *Docker)WorkingDir(dir string) {
 func (d *Docker)Run(cmdline string) error {
     cmd := exec.Command(
 	"docker", "run", "-it", "--rm",
-	"--name", d.cname, "--hostname", d.cname,
-	"-u", d.ugid)
+	"--name", d.cname, "--hostname", d.cname)
+    if d.rootless == false {
+	cmd.Args = append(cmd.Args, "-u", d.ugid)
+    }
     for _, v := range d.vols {
 	cmd.Args = append(cmd.Args, "-v", v)
     }
